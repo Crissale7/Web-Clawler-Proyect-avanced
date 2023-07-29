@@ -1,0 +1,123 @@
+Importar librerías necesarias
+import requests
+from bs4 import BeautifulSoup
+import re
+
+Función para extraer enlaces de una página
+def extraer_enlaces(url):
+respuesta = requests.get(url)
+parsed = BeautifulSoup(respuesta.text, 'html.parser')
+enlaces = parsed.find_all('a')
+
+return [enlace['href'] for enlace in enlaces]
+
+Función para determinar si el enlace es válido
+def enlace_valido(enlace):
+patron = re.compile(r'^https?://([w]{3}.)?([^.]+).[a-z]{2,}[^\s]+$')
+return True if re.search(patron, enlace) else False
+
+Función principal del crawler
+def crawler(url_inicio):
+urls_visitadas = []
+urls_por_visitar = [url_inicio]
+
+while urls_por_visitar:
+url_actual = urls_por_visitar.pop(0)
+
+1-Extraer enlaces de una página web
+2-Determinar si un enlace es válido
+3-Implementar la lógica de un crawler que visite enlaces recursivamente
+
+ Web Clawler Proyect alpha 1.0
+cosas que se agregaron
+Se agregó:
+
+alpha 1.0
+-Lista de dominios permitidos
+-Manejo de excepciones
+-Guardado a una DB SQLite
+-Lectura y validación de robots.txt
+
+Web Clawler Proyect alpha 2.0:
+
+
+se agrego estas nuevas funciones:
+-Parámetros de configuración
+-Manejo de robots.txt
+-Delay entre requests
+-Almacenamiento de metadata y contenido
+-Búsqueda en profundidad con límite
+
+Web Clawler Proyect alpha 3.0:
+
+se agrego estas nuevas funciones y se arreglaron errores de sintaxis y se simplifico el codigo.
+
+-Soporte para crawlings recursivos en profundidad/amplitud con colas LIFO y FIFO.
+-Detección de códigos de estado HTTP para identificar respuestas 404, 500, etc.
+-Extracción de metadatos de las páginas como títulos, descripciones, keywords.
+-Parsing de Sitemaps XML para obtener listado de URLs.
+-Manejo de cookies/sesiones para sitios que requieren autenticación.
+-Utilizar librerías como Scrapy para crawler más avanzados.
+-Control de politeness para no sobrecargar los servidores, respetando delays.
+-Utilizar proxies y rotación de user-agents para distribuir requests.
+-Configurar un scheduler para ejecutar el crawler periódicamente.
+-Exportar los resultados a diferentes formatos, como JSON, CSV.
+-Almacenar contenido del body de las páginas crawladas.
+-Detección de duplicados basado en hashes para evitar re-crawl de páginas.
+-Medición de performance y debugging detallado del crawler.
+- Se utilizó Scrapy para tener un crawler más robusto
+
+Web Clawler Proyect alpha 4.0:
+
+-Soporte para múltiples spiders que se enfocan en partes diferentes del sitio web.
+-Middleware para detección de códigos de estado HTTP y manejo de errores.
+-Pipelines para almacenar los datos extraídos en bases de datos como MongoDB o PostgreSQL.
+-Soporte para crawlings distribuidos utilizando Scrapy Cloud.
+-Integrar el crawler con un scheduler como Celery para ejecuciones periódicas.
+-Agregar rotación de user-agents y proxies para distribuir mejor las requests.
+-Extraer y analizar enlaces Sitemaps XML.
+-Utilizar la librería Frontera de Scrapy para estrategias de crawling avanzadas.
+-Agregar autenticación para crawlings en sitios protegidos con login.
+-Generar feeds JSON/CSV/XML para importar los datos en otros sistemas.
+-Mediciones de performance y estadísticas del crawler.
+-Configurar el logging a diferentes niveles de detalle.
+-Detección de contenido duplicado basado en hash para evitar re-crawl.
+-Respetar politeness delay entre requests para no sobrecargar.
+
+
+Explicacion sobre el proyecto web crawler (rastreador web) (sigue estando en fase alpha)
+
+1. Se importan las librerías necesarias:
+- requests: para hacer solicitudes HTTP y obtener páginas web.
+- BeautifulSoup: para parsear el contenido HTML de las páginas. 
+- re: para expresiones regulares, que se usan para validar URLs.
+
+2. Se define la función `extraer_enlaces()`:
+- Recibe como parámetro la URL de una página web.
+- Usa requests para descargar el contenido de la página.
+- Con BeautifulSoup se analiza el HTML y se buscan todos los tags <a> de enlaces.
+- Se extrae el atributo 'href' de cada tag <a> para obtener la URL del enlace.
+- Devuelve una lista con las URLs encontradas.
+
+3. Se define la función `es_enlace_valido()`:
+- Recibe una URL y usa una expresión regular para validar que tenga un formato correcto.
+- Devuelve True si la URL es válida, False en caso contrario.
+
+4. Se define la función `crawler()`: 
+- Recibe como parámetro la URL inicial desde donde comenzar el rastreo. 
+- Se inicializan dos listas: urls_visitadas y urls_por_visitar.
+- Entra en un bucle while para iterar sobre las URLs por visitar:
+  - Saca la primera URL de la lista urls_por_visitar.
+  - Valida si no está en la lista urls_visitadas.
+  - Obtiene los enlaces de la página usando `extraer_enlaces()`.
+  - Filtra sólo los enlaces válidos con `es_enlace_valido()`.
+  - Agrega la URL actual a urls_visitadas y los enlaces a urls_por_visitar.
+- Finalmente devuelve la lista de URLs visitadas.
+
+5. Se ejecuta la función crawler pasando la URL inicial:
+
+`crawler('https://www.example.com')`
+
+
+
+
